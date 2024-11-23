@@ -12,7 +12,6 @@ import React, {
 import SendWhiteIcon from "../icons/send-white.svg";
 import BrainIcon from "../icons/brain.svg";
 import RenameIcon from "../icons/rename.svg";
-import ExportIcon from "../icons/share.svg";
 import ReturnIcon from "../icons/return.svg";
 import CopyIcon from "../icons/copy.svg";
 import SpeakIcon from "../icons/speak.svg";
@@ -45,7 +44,6 @@ import QualityIcon from "../icons/hd.svg";
 import StyleIcon from "../icons/palette.svg";
 import PluginIcon from "../icons/plugin.svg";
 import ShortcutkeyIcon from "../icons/shortcutkey.svg";
-import ReloadIcon from "../icons/reload.svg";
 import HeadphoneIcon from "../icons/headphone.svg";
 import {
   ChatMessage,
@@ -1645,17 +1643,17 @@ function _Chat() {
             </div>
           </div>
           <div className="window-actions">
-            <div className="window-action-button">
-              <IconButton
-                icon={<ReloadIcon />}
-                bordered
-                title={Locale.Chat.Actions.RefreshTitle}
-                onClick={() => {
-                  showToast(Locale.Chat.Actions.RefreshToast);
-                  chatStore.summarizeSession(true, session);
-                }}
-              />
-            </div>
+            {/*<div className="window-action-button">*/}
+            {/*    <IconButton*/}
+            {/*      icon={<ReloadIcon />}*/}
+            {/*      bordered*/}
+            {/*      title={Locale.Chat.Actions.RefreshTitle}*/}
+            {/*      onClick={() => {*/}
+            {/*        showToast(Locale.Chat.Actions.RefreshToast);*/}
+            {/*        chatStore.summarizeSession(true, session);*/}
+            {/*      }}*/}
+            {/*    />*/}
+            {/*  </div>*/}
             {!isMobileScreen && (
               <div className="window-action-button">
                 <IconButton
@@ -1667,16 +1665,16 @@ function _Chat() {
                 />
               </div>
             )}
-            <div className="window-action-button">
-              <IconButton
-                icon={<ExportIcon />}
-                bordered
-                title={Locale.Chat.Actions.Export}
-                onClick={() => {
-                  setShowExport(true);
-                }}
-              />
-            </div>
+            {/*<div className="window-action-button">*/}
+            {/*  <IconButton*/}
+            {/*    icon={<ExportIcon />}*/}
+            {/*    bordered*/}
+            {/*    title={Locale.Chat.Actions.Export}*/}
+            {/*    onClick={() => {*/}
+            {/*      setShowExport(true);*/}
+            {/*    }}*/}
+            {/*  />*/}
+            {/*</div>*/}
             {showMaxIcon && (
               <div className="window-action-button">
                 <IconButton
@@ -1796,7 +1794,9 @@ function _Chat() {
                           </div>
                           {!isUser && (
                             <div className={styles["chat-model-name"]}>
-                              {message.model}
+                              {message.model == "guardian-chat"
+                                ? "Guardian"
+                                : message.model}
                             </div>
                           )}
 

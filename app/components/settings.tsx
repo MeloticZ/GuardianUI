@@ -9,7 +9,6 @@ import CopyIcon from "../icons/copy.svg";
 import ClearIcon from "../icons/clear.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 import EditIcon from "../icons/edit.svg";
-import FireIcon from "../icons/fire.svg";
 import EyeIcon from "../icons/eye.svg";
 import DownloadIcon from "../icons/download.svg";
 import UploadIcon from "../icons/upload.svg";
@@ -19,7 +18,6 @@ import ConfirmIcon from "../icons/confirm.svg";
 import ConnectionIcon from "../icons/connection.svg";
 import CloudSuccessIcon from "../icons/cloud-success.svg";
 import CloudFailIcon from "../icons/cloud-fail.svg";
-import { trackSettingsPageGuideToCPaymentClick } from "../utils/auth-settings-events";
 import {
   Input,
   List,
@@ -49,8 +47,7 @@ import Locale, {
   changeLang,
   getLang,
 } from "../locales";
-import { copyToClipboard, clientUpdate, semverCompare } from "../utils";
-import Link from "next/link";
+import { copyToClipboard, semverCompare } from "../utils";
 import {
   Anthropic,
   Azure,
@@ -67,11 +64,9 @@ import {
   RELEASE_URL,
   STORAGE_KEY,
   ServiceProvider,
-  SlotID,
   UPDATE_URL,
   Stability,
   Iflytek,
-  SAAS_CHAT_URL,
   ChatGLM,
 } from "../constant";
 import { Prompt, SearchService, usePromptStore } from "../store/prompt";
@@ -84,8 +79,6 @@ import { useSyncStore } from "../store/sync";
 import { nanoid } from "nanoid";
 import { useMaskStore } from "../store/mask";
 import { ProviderType } from "../utils/cloud";
-import { TTSConfigList } from "./tts-config";
-import { RealtimeConfigList } from "./realtime-chat/realtime-config";
 
 function EditPromptModal(props: { id: string; onClose: () => void }) {
   const promptStore = usePromptStore();
@@ -646,7 +639,7 @@ export function Settings() {
   const showUsage = accessStore.isAuthorized();
   useEffect(() => {
     // checks per minutes
-    checkUpdate();
+    // checkUpdate();
     showUsage && checkUsage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -691,30 +684,30 @@ export function Settings() {
     </ListItem>
   );
 
-  const saasStartComponent = (
-    <ListItem
-      className={styles["subtitle-button"]}
-      title={
-        Locale.Settings.Access.SaasStart.Title +
-        `${Locale.Settings.Access.SaasStart.Label}`
-      }
-      subTitle={Locale.Settings.Access.SaasStart.SubTitle}
-    >
-      <IconButton
-        aria={
-          Locale.Settings.Access.SaasStart.Title +
-          Locale.Settings.Access.SaasStart.ChatNow
-        }
-        icon={<FireIcon />}
-        type={"primary"}
-        text={Locale.Settings.Access.SaasStart.ChatNow}
-        onClick={() => {
-          trackSettingsPageGuideToCPaymentClick();
-          window.location.href = SAAS_CHAT_URL;
-        }}
-      />
-    </ListItem>
-  );
+  // const saasStartComponent = (
+  //   <ListItem
+  //     className={styles["subtitle-button"]}
+  //     title={
+  //       Locale.Settings.Access.SaasStart.Title +
+  //       `${Locale.Settings.Access.SaasStart.Label}`
+  //     }
+  //     subTitle={Locale.Settings.Access.SaasStart.SubTitle}
+  //   >
+  //     <IconButton
+  //       aria={
+  //         Locale.Settings.Access.SaasStart.Title +
+  //         Locale.Settings.Access.SaasStart.ChatNow
+  //       }
+  //       icon={<FireIcon />}
+  //       type={"primary"}
+  //       text={Locale.Settings.Access.SaasStart.ChatNow}
+  //       onClick={() => {
+  //         trackSettingsPageGuideToCPaymentClick();
+  //         window.location.href = SAAS_CHAT_URL;
+  //       }}
+  //     />
+  //   </ListItem>
+  // );
 
   const useCustomConfigComponent = // Conditionally render the following ListItem based on clientConfig.isApp
     !clientConfig?.isApp && ( // only show if isApp is false
@@ -1428,36 +1421,38 @@ export function Settings() {
           </ListItem>
 
           <ListItem
-            title={Locale.Settings.Update.Version(currentVersion ?? "unknown")}
-            subTitle={
-              checkingUpdate
-                ? Locale.Settings.Update.IsChecking
-                : hasNewVersion
-                ? Locale.Settings.Update.FoundUpdate(remoteId ?? "ERROR")
-                : Locale.Settings.Update.IsLatest
-            }
+            // title={Locale.Settings.Update.Version(currentVersion ?? "unknown")}
+            title={Locale.Settings.Update.Version("0.2")}
+            subTitle={Locale.Settings.Update.IsLatest}
+            // subTitle={
+            //   checkingUpdate
+            //     ? Locale.Settings.Update.IsChecking
+            //     : hasNewVersion
+            //     ? Locale.Settings.Update.FoundUpdate(remoteId ?? "ERROR")
+            //     : Locale.Settings.Update.IsLatest
+            // }
           >
-            {checkingUpdate ? (
-              <LoadingIcon />
-            ) : hasNewVersion ? (
-              clientConfig?.isApp ? (
-                <IconButton
-                  icon={<ResetIcon></ResetIcon>}
-                  text={Locale.Settings.Update.GoToUpdate}
-                  onClick={() => clientUpdate()}
-                />
-              ) : (
-                <Link href={updateUrl} target="_blank" className="link">
-                  {Locale.Settings.Update.GoToUpdate}
-                </Link>
-              )
-            ) : (
-              <IconButton
-                icon={<ResetIcon></ResetIcon>}
-                text={Locale.Settings.Update.CheckUpdate}
-                onClick={() => checkUpdate(true)}
-              />
-            )}
+            {/*{checkingUpdate ? (*/}
+            {/*  <LoadingIcon />*/}
+            {/*) : hasNewVersion ? (*/}
+            {/*  clientConfig?.isApp ? (*/}
+            {/*    <IconButton*/}
+            {/*      icon={<ResetIcon></ResetIcon>}*/}
+            {/*      text={Locale.Settings.Update.GoToUpdate}*/}
+            {/*      onClick={() => clientUpdate()}*/}
+            {/*    />*/}
+            {/*  ) : (*/}
+            {/*    <Link href={updateUrl} target="_blank" className="link">*/}
+            {/*      {Locale.Settings.Update.GoToUpdate}*/}
+            {/*    </Link>*/}
+            {/*  )*/}
+            {/*) : (*/}
+            {/*  <IconButton*/}
+            {/*    icon={<ResetIcon></ResetIcon>}*/}
+            {/*    text={Locale.Settings.Update.CheckUpdate}*/}
+            {/*    onClick={() => checkUpdate(true)}*/}
+            {/*  />*/}
+            {/*)}*/}
           </ListItem>
 
           <ListItem title={Locale.Settings.SendKey}>
@@ -1691,100 +1686,100 @@ export function Settings() {
           </ListItem>
         </List>
 
-        <List id={SlotID.CustomModel}>
-          {saasStartComponent}
-          {accessCodeComponent}
+        {/*<List id={SlotID.CustomModel}>*/}
+        {/*  /!*{saasStartComponent}*!/*/}
+        {/*  {accessCodeComponent}*/}
 
-          {!accessStore.hideUserApiKey && (
-            <>
-              {useCustomConfigComponent}
+        {/*  {!accessStore.hideUserApiKey && (*/}
+        {/*    <>*/}
+        {/*      {useCustomConfigComponent}*/}
 
-              {accessStore.useCustomConfig && (
-                <>
-                  <ListItem
-                    title={Locale.Settings.Access.Provider.Title}
-                    subTitle={Locale.Settings.Access.Provider.SubTitle}
-                  >
-                    <Select
-                      aria-label={Locale.Settings.Access.Provider.Title}
-                      value={accessStore.provider}
-                      onChange={(e) => {
-                        accessStore.update(
-                          (access) =>
-                            (access.provider = e.target
-                              .value as ServiceProvider),
-                        );
-                      }}
-                    >
-                      {Object.entries(ServiceProvider).map(([k, v]) => (
-                        <option value={v} key={k}>
-                          {k}
-                        </option>
-                      ))}
-                    </Select>
-                  </ListItem>
+        {/*      {accessStore.useCustomConfig && (*/}
+        {/*        <>*/}
+        {/*          <ListItem*/}
+        {/*            title={Locale.Settings.Access.Provider.Title}*/}
+        {/*            subTitle={Locale.Settings.Access.Provider.SubTitle}*/}
+        {/*          >*/}
+        {/*            <Select*/}
+        {/*              aria-label={Locale.Settings.Access.Provider.Title}*/}
+        {/*              value={accessStore.provider}*/}
+        {/*              onChange={(e) => {*/}
+        {/*                accessStore.update(*/}
+        {/*                  (access) =>*/}
+        {/*                    (access.provider = e.target*/}
+        {/*                      .value as ServiceProvider),*/}
+        {/*                );*/}
+        {/*              }}*/}
+        {/*            >*/}
+        {/*              {Object.entries(ServiceProvider).map(([k, v]) => (*/}
+        {/*                <option value={v} key={k}>*/}
+        {/*                  {k}*/}
+        {/*                </option>*/}
+        {/*              ))}*/}
+        {/*            </Select>*/}
+        {/*          </ListItem>*/}
 
-                  {openAIConfigComponent}
-                  {azureConfigComponent}
-                  {googleConfigComponent}
-                  {anthropicConfigComponent}
-                  {baiduConfigComponent}
-                  {byteDanceConfigComponent}
-                  {alibabaConfigComponent}
-                  {tencentConfigComponent}
-                  {moonshotConfigComponent}
-                  {stabilityConfigComponent}
-                  {lflytekConfigComponent}
-                  {XAIConfigComponent}
-                  {chatglmConfigComponent}
-                </>
-              )}
-            </>
-          )}
+        {/*          {openAIConfigComponent}*/}
+        {/*          {azureConfigComponent}*/}
+        {/*          {googleConfigComponent}*/}
+        {/*          {anthropicConfigComponent}*/}
+        {/*          {baiduConfigComponent}*/}
+        {/*          {byteDanceConfigComponent}*/}
+        {/*          {alibabaConfigComponent}*/}
+        {/*          {tencentConfigComponent}*/}
+        {/*          {moonshotConfigComponent}*/}
+        {/*          {stabilityConfigComponent}*/}
+        {/*          {lflytekConfigComponent}*/}
+        {/*          {XAIConfigComponent}*/}
+        {/*          {chatglmConfigComponent}*/}
+        {/*        </>*/}
+        {/*      )}*/}
+        {/*    </>*/}
+        {/*  )}*/}
 
-          {!shouldHideBalanceQuery && !clientConfig?.isApp ? (
-            <ListItem
-              title={Locale.Settings.Usage.Title}
-              subTitle={
-                showUsage
-                  ? loadingUsage
-                    ? Locale.Settings.Usage.IsChecking
-                    : Locale.Settings.Usage.SubTitle(
-                        usage?.used ?? "[?]",
-                        usage?.subscription ?? "[?]",
-                      )
-                  : Locale.Settings.Usage.NoAccess
-              }
-            >
-              {!showUsage || loadingUsage ? (
-                <div />
-              ) : (
-                <IconButton
-                  icon={<ResetIcon></ResetIcon>}
-                  text={Locale.Settings.Usage.Check}
-                  onClick={() => checkUsage(true)}
-                />
-              )}
-            </ListItem>
-          ) : null}
+        {/*  {!shouldHideBalanceQuery && !clientConfig?.isApp ? (*/}
+        {/*    <ListItem*/}
+        {/*      title={Locale.Settings.Usage.Title}*/}
+        {/*      subTitle={*/}
+        {/*        showUsage*/}
+        {/*          ? loadingUsage*/}
+        {/*            ? Locale.Settings.Usage.IsChecking*/}
+        {/*            : Locale.Settings.Usage.SubTitle(*/}
+        {/*                usage?.used ?? "[?]",*/}
+        {/*                usage?.subscription ?? "[?]",*/}
+        {/*              )*/}
+        {/*          : Locale.Settings.Usage.NoAccess*/}
+        {/*      }*/}
+        {/*    >*/}
+        {/*      {!showUsage || loadingUsage ? (*/}
+        {/*        <div />*/}
+        {/*      ) : (*/}
+        {/*        <IconButton*/}
+        {/*          icon={<ResetIcon></ResetIcon>}*/}
+        {/*          text={Locale.Settings.Usage.Check}*/}
+        {/*          onClick={() => checkUsage(true)}*/}
+        {/*        />*/}
+        {/*      )}*/}
+        {/*    </ListItem>*/}
+        {/*  ) : null}*/}
 
-          <ListItem
-            title={Locale.Settings.Access.CustomModel.Title}
-            subTitle={Locale.Settings.Access.CustomModel.SubTitle}
-          >
-            <input
-              aria-label={Locale.Settings.Access.CustomModel.Title}
-              type="text"
-              value={config.customModels}
-              placeholder="model1,model2,model3"
-              onChange={(e) =>
-                config.update(
-                  (config) => (config.customModels = e.currentTarget.value),
-                )
-              }
-            ></input>
-          </ListItem>
-        </List>
+        {/*  <ListItem*/}
+        {/*    title={Locale.Settings.Access.CustomModel.Title}*/}
+        {/*    subTitle={Locale.Settings.Access.CustomModel.SubTitle}*/}
+        {/*  >*/}
+        {/*    <input*/}
+        {/*      aria-label={Locale.Settings.Access.CustomModel.Title}*/}
+        {/*      type="text"*/}
+        {/*      value={config.customModels}*/}
+        {/*      placeholder="model1,model2,model3"*/}
+        {/*      onChange={(e) =>*/}
+        {/*        config.update(*/}
+        {/*          (config) => (config.customModels = e.currentTarget.value),*/}
+        {/*        )*/}
+        {/*      }*/}
+        {/*    ></input>*/}
+        {/*  </ListItem>*/}
+        {/*</List>*/}
 
         <List>
           <ModelConfigList
@@ -1800,28 +1795,28 @@ export function Settings() {
         {shouldShowPromptModal && (
           <UserPromptModal onClose={() => setShowPromptModal(false)} />
         )}
-        <List>
-          <RealtimeConfigList
-            realtimeConfig={config.realtimeConfig}
-            updateConfig={(updater) => {
-              const realtimeConfig = { ...config.realtimeConfig };
-              updater(realtimeConfig);
-              config.update(
-                (config) => (config.realtimeConfig = realtimeConfig),
-              );
-            }}
-          />
-        </List>
-        <List>
-          <TTSConfigList
-            ttsConfig={config.ttsConfig}
-            updateConfig={(updater) => {
-              const ttsConfig = { ...config.ttsConfig };
-              updater(ttsConfig);
-              config.update((config) => (config.ttsConfig = ttsConfig));
-            }}
-          />
-        </List>
+        {/*<List>*/}
+        {/*  <RealtimeConfigList*/}
+        {/*    realtimeConfig={config.realtimeConfig}*/}
+        {/*    updateConfig={(updater) => {*/}
+        {/*      const realtimeConfig = { ...config.realtimeConfig };*/}
+        {/*      updater(realtimeConfig);*/}
+        {/*      config.update(*/}
+        {/*        (config) => (config.realtimeConfig = realtimeConfig),*/}
+        {/*      );*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</List>*/}
+        {/*<List>*/}
+        {/*  <TTSConfigList*/}
+        {/*    ttsConfig={config.ttsConfig}*/}
+        {/*    updateConfig={(updater) => {*/}
+        {/*      const ttsConfig = { ...config.ttsConfig };*/}
+        {/*      updater(ttsConfig);*/}
+        {/*      config.update((config) => (config.ttsConfig = ttsConfig));*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</List>*/}
 
         <DangerItems />
       </div>
