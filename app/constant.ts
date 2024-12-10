@@ -565,9 +565,9 @@ export const internalAllowedWebDavEndpoints = [
 
 export const DEFAULT_GA_ID = "G-89WN60ZK2E";
 export const PLUGINS = [
-  { name: "Plugins", path: Path.Plugins },
+  // { name: "Plugins", path: Path.Plugins },
   // { name: "Stable Diffusion", path: Path.Sd },
-  { name: "Search Chat", path: Path.SearchChat },
+  { name: "Search Chat History", path: Path.SearchChat },
 ];
 
 // export const SAAS_CHAT_URL = "https://nextchat.dev/chat";

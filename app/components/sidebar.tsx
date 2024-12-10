@@ -7,6 +7,7 @@ import SettingsIcon from "../icons/settings.svg";
 import ChatGptIcon from "../icons/chatgpt.svg";
 import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
+import SearchIcon from "../icons/zoom.svg";
 import MaskIcon from "../icons/mask.svg";
 import DragIcon from "../icons/drag.svg";
 import DiscoveryIcon from "../icons/discovery.svg";
@@ -218,6 +219,7 @@ export function SideBar(props: { className?: string }) {
   useHotKey();
   const { onDragStart, shouldNarrow } = useDragSideBar();
   const [showPluginSelector, setShowPluginSelector] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const navigate = useNavigate();
   const config = useAppConfig();
   const chatStore = useChatStore();
@@ -234,27 +236,53 @@ export function SideBar(props: { className?: string }) {
         logo={<ChatGptIcon />}
         shouldNarrow={shouldNarrow}
       >
-        <div className={styles["sidebar-header-bar"]}>
-          <IconButton
-            icon={<MaskIcon />}
-            text={shouldNarrow ? undefined : Locale.Mask.Name}
-            className={styles["sidebar-bar-button"]}
-            onClick={() => {
-              if (config.dontShowMaskSplashScreen !== true) {
-                navigate(Path.NewChat, { state: { fromHome: true } });
-              } else {
-                navigate(Path.Masks, { state: { fromHome: true } });
-              }
-            }}
-            shadow
-          />
-          <IconButton
-            icon={<DiscoveryIcon />}
-            text={shouldNarrow ? undefined : Locale.Discovery.Name}
-            className={styles["sidebar-bar-button"]}
-            onClick={() => setShowPluginSelector(true)}
-            shadow
-          />
+        <div
+          className={styles["sidebar-header-bar"]}
+          style={{ flexDirection: "column" }}
+        >
+          <div
+            className={styles["sidebar-header-bar"]}
+            style={{ marginBottom: "10px" }}
+          >
+            <IconButton
+              icon={<MaskIcon />}
+              text={shouldNarrow ? undefined : Locale.Mask.Name}
+              className={styles["sidebar-bar-button"]}
+              onClick={() => {
+                if (config.dontShowMaskSplashScreen !== true) {
+                  navigate(Path.NewChat, { state: { fromHome: true } });
+                } else {
+                  navigate(Path.Masks, { state: { fromHome: true } });
+                }
+              }}
+              shadow
+            />
+            <IconButton
+              icon={<SearchIcon />}
+              text={shouldNarrow ? undefined : "Search History"}
+              className={styles["sidebar-bar-button"]}
+              onClick={() => {
+                if (!showSearch) {
+                  navigate(Path.SearchChat, { state: { fromHome: true } });
+                  setShowSearch(true);
+                } else {
+                  navigate(Path.Home);
+                  setShowSearch(false);
+                }
+              }}
+              shadow
+            />
+          </div>
+          <div>
+            <IconButton
+              style={{ width: "100%" }}
+              icon={<DiscoveryIcon />}
+              text={shouldNarrow ? undefined : "Guardian Resources"}
+              className={styles["sidebar-bar-button"]}
+              onClick={() => (location.href = "/content/")}
+              shadow
+            />
+          </div>
         </div>
         {showPluginSelector && (
           <Selector
